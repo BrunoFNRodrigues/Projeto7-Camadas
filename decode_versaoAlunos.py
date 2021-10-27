@@ -2,8 +2,14 @@
 """Show a text-mode spectrogram using live microphone data."""
 
 #Importe todas as bibliotecas
-
-
+import numpy as np
+import sounddevice as sd
+import matplotlib as plt
+import peakutils 
+from scipy import signal
+from scipy.fftpack import fft, fftshift
+from suaBibSignal import *
+import time as ZaWarudo
 #funcao para transformas intensidade acustica em dB
 def todB(s):
     sdB = 10*np.log10(s)
@@ -14,30 +20,33 @@ def main():
  
     #declare um objeto da classe da sua biblioteca de apoio (cedida)    
     #declare uma variavel com a frequencia de amostragem, sendo 44100
-    
+    sinalMeu = signalMeu()
+    freqDeAmostragem = 44100
     #voce importou a bilioteca sounddevice como, por exemplo, sd. entao
     # os seguintes parametros devem ser setados:
     
-    sd.default.samplerate = #taxa de amostragem
+    sd.default.samplerate = 1/freqDeAmostragem #taxa de amostragem
     sd.default.channels = 2  #voce pode ter que alterar isso dependendo da sua placa
-    duration = #tempo em segundos que ira aquisitar o sinal acustico captado pelo mic
+    duration = 7 #tempo em segundos que ira aquisitar o sinal acustico captado pelo mic
 
 
     # faca um printo na tela dizendo que a captacao comecará em n segundos. e entao 
     #use um time.sleep para a espera
-   
-   #faca um print informando que a gravacao foi inicializada
-   
-   #declare uma variavel "duracao" com a duracao em segundos da gravacao. poucos segundos ... 
-   #calcule o numero de amostras "numAmostras" que serao feitas (numero de aquisicoes)
-   
+    print("Começa a gravar em 2 segundos")
+    ZaWarudo.sleep(2)
+    #faca um print informando que a gravacao foi inicializada
+    print("Começou a gravação")
+    #declare uma variavel "duracao" com a duracao em segundos da gravacao. poucos segundos ... 
+    #calcule o numero de amostras "numAmostras" que serao feitas (numero de aquisicoes)
+    duracao = 5
+    numAmostras = freqDeAmostragem*duracao
     audio = sd.rec(int(numAmostras), freqDeAmostragem, channels=1)
     sd.wait()
     print("...     FIM")
     
     #analise sua variavel "audio". pode ser um vetor com 1 ou 2 colunas, lista ...
     #grave uma variavel com apenas a parte que interessa (dados)
-    
+    print(audio)
 
     # use a funcao linspace e crie o vetor tempo. Um instante correspondente a cada amostra!
     t = np.linspace(inicio,fim,numPontos)

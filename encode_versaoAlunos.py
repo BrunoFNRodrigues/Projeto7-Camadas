@@ -1,8 +1,11 @@
 
 
 #importe as bibliotecas
-
-
+import numpy as np
+import sys 
+import sounddevice as sd
+from suaBibSignal import *
+import time as ZaWarudo
 
 
 def signal_handler(signal, frame):
@@ -19,35 +22,41 @@ def main():
     
      #declare um objeto da classe da sua biblioteca de apoio (cedida)    
     #declare uma variavel com a frequencia de amostragem, sendo 44100
+    signal= signalMeu()
+    freqDeAmostragem = 44100
     
     #voce importou a bilioteca sounddevice como, por exemplo, sd. entao
     # os seguintes parametros devem ser setados:
+    sd.default.samplerate = freqDeAmostragem #taxa de amostragem
+    sd.default.channels = 2  #voce pode ter que alterar isso dependendo da sua placa
     
-    
-    duration = #tempo em segundos que ira emitir o sinal acustico 
+    duration = 5#tempo em segundos que ira emitir o sinal acustico 
       
 #relativo ao volume. Um ganho alto pode saturar sua placa... comece com .3    
     gainX  = 0.3
     gainY  = 0.3
-
+    
+    amplitude = 2
 
     print("Gerando Tons base")
     
     #gere duas senoides para cada frequencia da tabela DTMF ! Canal x e canal y 
     #use para isso sua biblioteca (cedida)
     #obtenha o vetor tempo tb.
+    x,y = signal.generateSin(183,2, 2, freqDeAmostragem)
     #deixe tudo como array
 
     #printe a mensagem para o usuario teclar um numero de 0 a 9. 
     #nao aceite outro valor de entrada.
-    print("Gerando Tom referente ao símbolo : {}".format(NUM))
+    print("Gerando Tom referente ao símbolo : {}".format(0))
     
     
     #construa o sunal a ser reproduzido. nao se esqueca de que é a soma das senoides
     
     #printe o grafico no tempo do sinal a ser reproduzido
+    plt.plot(y,x)
     # reproduz o som
-    sd.play(tone, fs)
+    #sd.play(tone, fs)
     # Exibe gráficos
     plt.show()
     # aguarda fim do audio

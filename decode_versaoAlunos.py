@@ -24,7 +24,7 @@ def main():
     #voce importou a bilioteca sounddevice como, por exemplo, sd. entao
     # os seguintes parametros devem ser setados:
     
-    sd.default.samplerate = 1/freqDeAmostragem #taxa de amostragem
+    sd.default.samplerate = freqDeAmostragem #taxa de amostragem
     sd.default.channels = 2  #voce pode ter que alterar isso dependendo da sua placa
     duration = 4 #tempo em segundos que ira aquisitar o sinal acustico captado pelo mic
 
@@ -42,7 +42,7 @@ def main():
     audio = sd.rec(int(numAmostras), freqDeAmostragem, channels=1)
     sd.wait()
     print("...     FIM")
-    
+    print(audio)
     #analise sua variavel "audio". pode ser um vetor com 1 ou 2 colunas, lista ...
     #grave uma variavel com apenas a parte que interessa (dados)
     inicio = 0
@@ -50,12 +50,16 @@ def main():
     numPontos = numAmostras
     # use a funcao linspace e crie o vetor tempo. Um instante correspondente a cada amostra!
     t = np.linspace(inicio,fim,numPontos)
-
     # plot do gravico  áudio vs tempo!
     plt.plot(t, audio)
     
     # Calcula e exibe o Fourier do sinal audio. como saida tem-se a amplitude e as frequencias
-    y = audio
+
+    y = []
+    for i in audio:
+        if i[0] > 0:
+            y.append(todB(i[0]))
+                     
     fs = freqDeAmostragem
     xf, yf = signal.calcFFT(y, fs)
     plt.figure("F(y)")
@@ -68,6 +72,7 @@ def main():
     #voce deve aprender a usa-la. ha como ajustar a sensibilidade, ou seja, o que é um pico?
     #voce deve tambem evitar que dois picos proximos sejam identificados, pois pequenas variacoes na
     #frequencia do sinal podem gerar mais de um pico, e na verdade tempos apenas 1.
+
    
     index = peakutils.indexes(,,)
     

@@ -30,7 +30,7 @@ def main():
     sd.default.samplerate = freqDeAmostragem #taxa de amostragem
     sd.default.channels = 2  #voce pode ter que alterar isso dependendo da sua placa
     
-    duration = 3#tempo em segundos que ira emitir o sinal acustico 
+    duration = 5#tempo em segundos que ira emitir o sinal acustico 
       
 #relativo ao volume. Um ganho alto pode saturar sua placa... comece com .3    
     gainX  = 0.3
@@ -71,7 +71,7 @@ def main():
 
     plt.plot(y,x)
     # reproduz o som
-    tone = x*0.2
+    tone = x
     sd.play(tone, fs)
     # Exibe gráficos
     plt.show()

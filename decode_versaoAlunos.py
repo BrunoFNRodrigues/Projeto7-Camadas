@@ -63,7 +63,7 @@ def main():
     fs = freqDeAmostragem
     xf, yf = signal.calcFFT(y, fs)
     plt.figure("F(y)")
-    plt.plot(xf[100:],yf[100:])
+    plt.plot(xf[50:],yf[50:])
     plt.grid()
     plt.title('Fourier audio')
     
@@ -74,7 +74,7 @@ def main():
     #frequencia do sinal podem gerar mais de um pico, e na verdade tempos apenas 1.
 
    
-    index = peakutils.indexes(yf[100:],0.5,30)
+    index = peakutils.indexes(yf[50:],0.3,30)
     digits = {
     "1":[1209,697], "2":[1336,697], "3":[1477,697], "4":[1209,770], 
     "5":[1336,770], "6":[1477,852], "7":[1209,852], "8":[1336,852],
@@ -84,7 +84,7 @@ def main():
     print(index)
     #encontre na tabela duas frequencias proximas às frequencias de pico encontradas e descubra qual foi a tecla
     #print a tecla.
-    tolerancia = 30
+    tolerancia = 10
     resposta = []
     for pico in index:
         if 1477-tolerancia <= pico <= 1477+tolerancia:
@@ -100,15 +100,13 @@ def main():
         if 770-tolerancia <= pico <= 770+tolerancia:
             resposta.append(770)
         if 697-tolerancia <= pico <= 697+tolerancia:
-            resposta.append(697)
-    if len(resposta) == 2:   
-        i = 0
-        keys = digits.keys()    
-        for digit in digits:
-            if resposta[0] in digit and resposta[1] in digit:
-                print(keys[i])
-            i += 1
+            resposta.append(697)      
+    for digit in digits:
+        valor = digits[str(digit)]
+        if valor[0] in resposta and valor[1] in resposta:
+            print(digit)
     ## Exibe gráficos
+    print(resposta)
     plt.show()
 
 if __name__ == "__main__":

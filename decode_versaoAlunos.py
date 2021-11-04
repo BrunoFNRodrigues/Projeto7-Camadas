@@ -32,7 +32,7 @@ def main():
     # faca um printo na tela dizendo que a captacao comecará em n segundos. e entao 
     #use um time.sleep para a espera
     print("Começa a gravar em 2 segundos")
-    ZaWarudo.sleep(2)
+    #ZaWarudo.sleep(2)
     #faca um print informando que a gravacao foi inicializada
     print("Começou a gravação")
     #declare uma variavel "duracao" com a duracao em segundos da gravacao. poucos segundos ... 
@@ -55,15 +55,10 @@ def main():
     
     # Calcula e exibe o Fourier do sinal audio. como saida tem-se a amplitude e as frequencias
 
-    y = []
-    for i in audio:
-        if i[0] > 0:
-            y.append(todB(i[0]))
-                     
     fs = freqDeAmostragem
-    xf, yf = signal.calcFFT(y, fs)
+    xf, yf = signal.calcFFT(audio[:,0], fs)
     plt.figure("F(y)")
-    plt.plot(xf[50:],yf[50:])
+    plt.plot(xf,yf)
     plt.grid()
     plt.title('Fourier audio')
     
@@ -74,32 +69,33 @@ def main():
     #frequencia do sinal podem gerar mais de um pico, e na verdade tempos apenas 1.
 
    
-    index = peakutils.indexes(yf[50:],0.3,30)
+    index = peakutils.indexes(yf,0.3,50)
     digits = {
     "1":[1209,697], "2":[1336,697], "3":[1477,697], "4":[1209,770], 
     "5":[1336,770], "6":[1477,852], "7":[1209,852], "8":[1336,852],
     "9":[1477,852], "0":[1336,941]
     }
     #printe os picos encontrados! 
-    print(index)
+    #print("index",index)
     #encontre na tabela duas frequencias proximas às frequencias de pico encontradas e descubra qual foi a tecla
     #print a tecla.
     tolerancia = 10
     resposta = []
     for pico in index:
-        if 1477-tolerancia <= pico <= 1477+tolerancia:
+        print("Pico",xf[pico])
+        if 1477-tolerancia <= xf[pico] <= 1477+tolerancia:
             resposta.append(1477)
-        if 1336-tolerancia <= pico <= 1336+tolerancia:
+        if 1336-tolerancia <= xf[pico] <= 1336+tolerancia:
             resposta.append(1336)
-        if 1209-tolerancia <= pico <= 1209+tolerancia:
+        if 1209-tolerancia <= xf[pico] <= 1209+tolerancia:
             resposta.append(1209)
-        if 941-tolerancia <= pico <= 941+tolerancia:
+        if 941-tolerancia <= xf[pico] <= 941+tolerancia:
             resposta.append(941)
-        if 852-tolerancia <= pico <= 852+tolerancia:
+        if 852-tolerancia <= xf[pico] <= 852+tolerancia:
             resposta.append(852)
-        if 770-tolerancia <= pico <= 770+tolerancia:
+        if 770-tolerancia <= xf[pico] <= 770+tolerancia:
             resposta.append(770)
-        if 697-tolerancia <= pico <= 697+tolerancia:
+        if 697-tolerancia <= xf[pico] <= 697+tolerancia:
             resposta.append(697)      
     for digit in digits:
         valor = digits[str(digit)]

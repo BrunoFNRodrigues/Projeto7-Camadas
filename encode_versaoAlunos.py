@@ -71,7 +71,7 @@ def main():
 
     plt.plot(y,x)
     # reproduz o som
-    tone = x
+    tone = x*gainX
     sd.play(tone, fs)
     # Exibe gráficos
     plt.show()
